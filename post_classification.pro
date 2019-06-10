@@ -2,7 +2,7 @@ function confusion_matrix, predict, reference , numClusters
     
     ;Initi della confusion matrix di dimensione numClusters X numClusters
     cm = make_array(numClusters,numClusters,/LONG)
-    size_out = size(predict)
+    size_out = size(reference)
     n_sample = max(size_out) 
     n=0UL
     
@@ -13,8 +13,7 @@ function confusion_matrix, predict, reference , numClusters
     
     predict_index = predict[n] - 1
     reference_index  = reference[n] - 1
-    
-    cm[reference_index,predict_index] = cm[reference_index,predict_index]  + 1
+    if reference_index gt -1 then  cm[reference_index,predict_index] = cm[reference_index,predict_index]  + 1
     n = n + 1
     endwhile
     
@@ -44,13 +43,13 @@ producer_accuracy=  make_array(numclusters,/FLOAT)
 
 sum_d_elem = 0.0 ;KHAT
 sum_r_c = 0.0 ;KHAT
-N = float(total(confusion_matrix))
+N = double(total(confusion_matrix))
 
 FOR k = 0, numClusters - 1 DO BEGIN
   
-  cl_sum = float(total(confusion_matrix[k,*]))
-  rw_sum =  float(total(confusion_matrix[*,k]))
-  d_elem = float(confusion_matrix[k,k])
+  cl_sum = double(total(confusion_matrix[k,*]))
+  rw_sum =  double(total(confusion_matrix[*,k]))
+  d_elem = double(confusion_matrix[k,k])
   
   sum_r_c = sum_r_c + (cl_sum*rw_sum) ; KHAT
   sum_d_elem =  sum_d_elem + d_elem ;KHAT

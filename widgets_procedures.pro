@@ -64,7 +64,6 @@ pro post_classification_widgets
   ;seleziono il file di classificazione
   envi_select, title='Classification input file', fid=fid, pos=pos
   envi_file_query, fid, data_type=data_type,dims=dims, ns=ns, nl=nl, nb=nb, interleave=interleave,fname=fname
-  
   ;ricevo il contenuto spaziale del ROI
   predict=envi_get_data(fid=fid,dims=dims,pos=pos)
 
@@ -126,7 +125,7 @@ pro post_classification_widgets
   
   for i=0,numClasses-1 do listValue[i+4]=  string(i+1)+'Class'+ ':   ' + string(producer_acc[i]) + '   ' + string(user_acc[i])
   
-  ws = widget_slabel(base, prompt=listValue,xsize='150',ysize='50')
+  ws = widget_slabel(base, prompt=listValue,xsize='80',ysize='25')
   widget_control, base, /realize
   print, delim
   print,'Confusion Matrix'
