@@ -55,8 +55,8 @@ FOR k = 0, numClusters - 1 DO BEGIN
   sum_r_c = sum_r_c + (cl_sum*rw_sum) ; KHAT
   sum_d_elem =  sum_d_elem + d_elem ;KHAT
   
-  user_accuracy[k] = d_elem / cl_sum 
-  producer_accuracy[k] = d_elem / rw_sum
+  producer_accuracy[k] = d_elem / cl_sum 
+  user_accuracy[k] = d_elem / rw_sum
   
 ENDFOR
 

@@ -66,7 +66,7 @@ pro post_classification_widgets
   envi_file_query, fid, data_type=data_type,dims=dims, ns=ns, nl=nl, nb=nb, interleave=interleave,fname=fname
   
   ;ricevo il contenuto spaziale del ROI
-  reference=envi_get_data(fid=fid,dims=dims,pos=pos)
+  predict=envi_get_data(fid=fid,dims=dims,pos=pos)
 
   ;controllo le regioni associate
   roi_ids = envi_get_roi_ids(fid=fid, roi_names=roi_names)
@@ -96,12 +96,12 @@ pro post_classification_widgets
   associatedClass = result.edit
   
     
-  ;init array per il risultato della classificazione
-  predict = make_array(ns,nl,type=byte)
+  ;init array per la codifica del roi
+  reference = make_array(ns,nl,type=byte)
   ;riempio la matrice 
   for i=0,n_elements(regionNames)-1 do begin
     roi_addr = envi_get_roi(roi_ids[i]) 
-    predict[roi_addr]= associatedClass[i]
+    reference[roi_addr]= associatedClass[i]
   endfor
   
   sizeRegion = size(regionNames)
@@ -124,8 +124,11 @@ pro post_classification_widgets
   listValue[2] = lbl
   listValue[3] = delim
   
-  for i=0,numClasses-1 do listValue[i+4]=  string(i+1)+'Class'+ ':   ' + string(user_acc[i]) + '   ' + string(producer_acc[i])
+  for i=0,numClasses-1 do listValue[i+4]=  string(i+1)+'Class'+ ':   ' + string(producer_acc[i]) + '   ' + string(user_acc[i])
   
   ws = widget_slabel(base, prompt=listValue,xsize='150',ysize='50')
   widget_control, base, /realize
+  print, delim
+  print,'Confusion Matrix'
+  print, res.confusion_matrix
 end
